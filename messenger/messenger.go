@@ -3,11 +3,11 @@ package Messenger
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/gin-gonic/gin"
 	"io"
 	"log"
 	"net/http"
-	"os"
+
+	"github.com/gin-gonic/gin"
 )
 
 func convertGenericMessage(message FbMessage) (Message, error) {
@@ -115,10 +115,9 @@ func (bot *Bot) AppendJob(function func(Message) bool) {
 	bot.core = append(bot.core, function)
 }
 
-func (bot *Bot) Start(f *os.File) {
-	//gin.DisableConsoleColor()
+func (bot *Bot) Start() {
 
-	//gin.DefaultWriter = io.MultiWriter(f)
+	gin.SetMode(gin.ReleaseMode)
 
 	apiUrl = bot.ApiUrl + bot.AccessToken
 

@@ -4,10 +4,11 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	Messenger "github.com/loser02/bot/messenger"
-	_ "github.com/mattn/go-sqlite3"
 	"log"
 	"os"
+
+	Messenger "github.com/loser02/bot/messenger"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 var db *sql.DB
@@ -38,18 +39,12 @@ func main() {
 
 	messenger := ReadConfig()
 	initSqlite()
-	f, err := os.OpenFile("log.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
-	if err != nil {
-		log.Fatalf("error opening file: %v", err)
-	}
-	defer f.Close()
-	log.SetOutput(os.Stdout)
 
 	messenger.AppendJob(HelloBack)
 	messenger.AppendJob(GenerateOrder)
 	messenger.AppendJob(GetOrder)
 
-	messenger.Start(f)
+	messenger.Start()
 }
 
 func HelloBack(m Messenger.Message) bool {
